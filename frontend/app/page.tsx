@@ -1,128 +1,188 @@
 "use client";
-import HeaderBar from "@/components/Header";
+import { user } from "@/lib/user";
+import PageAside from "@/components/NavBar";
 import LeftNavbar from "@/components/LeftNav";
 import Post from "@/components/Post";
 import PostCard from "@/components/PostCard";
 import RightNavbar from "@/components/RightNav";
 import Story from "@/components/Stories";
 import {
-  House,
-  User,
-  Group,
-  MessageCircle,
-  Settings,
-  Handshake,
-  Plus,
-  Gamepad2,
-  Music,
-  Book,
-  Plane,
-} from "lucide-react";
+  HouseIcon,
+  UsersIcon,
+  UserIcon,
+  UsersFourIcon,
+  ChatIcon,
+  GearSixIcon,
+  PlusIcon,
+  GameControllerIcon,
+  MusicNotesIcon,
+  BookIcon,
+  AirplaneIcon,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { useState } from "react";
+
+const NAV_ITEMS = [
+  {
+    label: "Feed",
+    to: "/",
+    icon: HouseIcon,
+  },
+  {
+    label: "Perfil",
+    to: "/perfil",
+    icon: UserIcon,
+  },
+  {
+    label: "Amigos",
+    to: "/friends",
+    icon: UsersIcon,
+  },
+  {
+    label: "Comunidade",
+    to: "/communities",
+    icon: UsersFourIcon,
+  },
+  {
+    label: "Mensagens",
+    to: "/messages",
+    icon: ChatIcon,
+  },
+  {
+    label: "Configurações",
+    to: "/settings",
+    icon: GearSixIcon,
+  },
+];
 
 export default function Home() {
   const NavLinks = [
     {
       text: "Feed",
       redirect: "/",
-      icon: House,
+      icon: HouseIcon,
     },
     {
       text: "Perfil",
       redirect: "/",
-      icon: User,
+      icon: UserIcon,
     },
     {
       text: "Amigos",
       redirect: "/",
-      icon: Group,
+      icon: UsersIcon,
     },
     {
       text: "Comunidade",
       redirect: "/",
-      icon: Handshake,
+      icon: UsersFourIcon,
     },
     {
       text: "Mensagens",
       redirect: "/",
-      icon: MessageCircle,
+      icon: ChatIcon,
     },
     {
       text: "Configurações",
       redirect: "/",
-      icon: Settings,
+      icon: GearSixIcon,
     },
   ];
   const Comunnities = [
     {
       text: "GamersBr",
       redirect: "/",
-      icon: Gamepad2,
+      icon: GameControllerIcon,
       color: "rose",
     },
     {
       text: "Indie Music",
       redirect: "/",
-      icon: Music,
+      icon: MusicNotesIcon,
       color: "emerald",
     },
     {
       text: "Clube do livro",
       redirect: "/",
-      icon: Book,
+      icon: BookIcon,
       color: "sky",
     },
     {
       text: "Mochileiros",
       redirect: "/",
-      icon: Plane,
+      icon: AirplaneIcon,
       color: "amber",
     },
   ];
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black gap-4">
-      <HeaderBar />
-      <main className="h-dvh w-full flex items-start  justify-center  ">
+    <div className="w-dvw min-h-dvh overflow-hidden relative flex h-screen items-center justify-center bg-background font-sans gap-4">
+      <PageAside items={NAV_ITEMS} />
+      <main className="overflow-auto h-dvh flex-1 w-full flex items-start justify-center pt-12 gap-4 ">
         <LeftNavbar
+          alt="string"
+          size={1}
           prop={NavLinks}
-          avatar={{
-            src: "https://i.pinimg.com/736x/bf/86/16/bf86169cb425cf8c1dc82d8ffb5c1fb5.jpg",
-            alt: "lindao",
-            size: 1,
-          }}
+          name="Lucas Silva"
+          at="lucas.silva"
+          src={user.img}
         />
-        <div className="flex flex-col gap-12 items-center min-w-3xl px-4 ">
+        <div className="flex flex-col gap-12 items-center min-w-152 px-4">
           <div className="flex flex-col w-full ">
-            <div className="flex flex-col items-start justify-start py-4  ">
-              <h1 className="text-xl text-zinc-100 font-black ">Olá, Lucas!</h1>
-              <span className="text-lg text-zinc-400 font-medium">
-                Veja oque está rolando no seu universo
-              </span>
-            </div>
-            <div className="flex gap-4 justify-start items-center ">
-              <div className="flex flex-col justify-center items-center gap-1.5 ">
-                <div className="size-12 rounded-full outline-2 outline-offset-2 outline-purple-500/25 bg-purple-500/15 flex flex-col items-center justify-center text-purple-400  ">
-                  <Plus />
-                </div>
-                <span className="text-xs text-zinc-400 truncate">
-                  Seu story
-                </span>
-              </div>
+            <div className="flex gap-6 justify-start items-center max-w-xl overflow-hidden px-2">
+              {/* TODO: TROCAR O OUTLINE DOS STORIES, PORQUE ESTA HARDCODED */}
+              <Story hasStory name={user.name} src={user.img} />
+              <Story hasStory name="Renata" src="/imagem_foda.webp" />
               <Story
-                src="https://imgs.search.brave.com/CvAgmXxTi94acxEz7Et418I4Q90sN60BmSz3OsuCnLE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZW5zLm5lMTAudW9s/LmNvbS5ici92ZWlj/dWxvcy9fbWlkaWFz/L2pwZy8yMDI1LzEy/LzEwL2dheV93aGlu/ZGVyc3Nvbl9udW5l/c192b2x0YV9hX2Zh/bGFyX3NvYnJlX3N1/YV9zZXh1YWxpZGFk/ZS0zNjE2NTE3Ni5q/cGc_aW1zPTMwNXgx/NzM"
-                size={32}
-                alt=""
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
+              />
+              <Story
+                hasStory
+                name="Whindersson Nunes"
+                src="https://i.pinimg.com/736x/1e/ef/f8/1eeff8134eac63b5f367d464b2da70e9.jpg"
               />
             </div>
           </div>
-          <div className="flex flex-col w-full gap-8">
-            <Post
-              alt="Pfp img"
-              size={24}
-              src="https://i.pinimg.com/736x/bf/86/16/bf86169cb425cf8c1dc82d8ffb5c1fb5.jpg"
-            />
-            <PostCard />
+          <div className="flex flex-col w-full gap-8 max-w-lg">
+            <PostCard Mensagem="Acabei de voltar de Floripa, o pôr do sol na lagoinha tava do caralho" />
+            <PostCard Mensagem="Acabei de voltar de Floripa, o pôr do sol na lagoinha tava do caralho" />
+            <PostCard Mensagem="Acabei de voltar de Floripa, o pôr do sol na lagoinha tava do caralho" />
           </div>
         </div>
         <RightNavbar prop={Comunnities} />

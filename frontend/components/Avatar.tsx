@@ -1,29 +1,65 @@
 "use client";
-import { User } from "lucide-react";
+
+import { AvatarFallback, AvatarSize, SIZE_MAP } from "@/utils/Helpers/Avatar";
+import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
+
 export interface AvatarProps {
-  src?: string;
-  alt: string;
-  size?: number;
+  src?: string | null;
+  name?: string;
+  sizes?: AvatarSize;
+  className?: string;
+  quality?: number;
+  isStory?: boolean;
+  isRead?: boolean;
 }
 
-export default function Avatar({ src, alt, size = 40 }: AvatarProps) {
-  const [error, setError] = useState(false);
+export function Avatar({
+  src,
+  name,
+  sizes = "lg",
+  className = "",
+  quality = 100,
+  isStory = false,
+  isRead = false,
+}: AvatarProps) {
+  const [imgError, setImgError] = useState(false);
+  const showImage = !!src && !imgError;
+
+  const { px, text, ring, statusSize, statusPos } = SIZE_MAP[sizes];
+
   return (
-    <div className="size-12 rounded-full outline-2 outline-offset-2 outline-purple-500/25 bg-purple-500/15 flex flex-col items-center justify-center text-purple-400  ">
-      {!src || error ? (
-        <User className="text-purple-400" size={size} />
-      ) : (
-        <Image
-          className="h-full w-full object-cover rounded-full"
-          height={size}
-          width={size}
-          alt={alt}
-          src={src}
-          onError={() => setError(true)}
-        />
+    <span
+      role="img"
+      aria-label={name ?? "User avatar"}
+      className={clsx(
+        `
+        relative inline-flex shrink-0 items-center justify-center
+        overflow-hidden rounded-full
+        bg-foreground-muted text-foreground-inverted dark:bg-zinc-700
+        ${className}
+      `,
+        isStory && [isRead ? "outline-background-brand" : "outline-white/10"],
+        { "outline-offset-3 outline-3 ": isStory },
       )}
-    </div>
+      style={{ width: px, height: px }}
+    >
+      <AvatarFallback name={name} textClass={text} />
+
+      {showImage && (
+        <div className="rounded-full">
+          <Image
+            src={src}
+            alt={name ?? "User avatar"}
+            fill
+            sizes={`${px}px`}
+            quality={quality}
+            className="object-cover "
+            onError={() => setImgError(true)}
+          />
+        </div>
+      )}
+    </span>
   );
 }
